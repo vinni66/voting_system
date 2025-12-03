@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { login } from '../services/api';
 import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Alert } from '@mui/material';
@@ -25,15 +25,28 @@ const Login = () => {
       // Decode token to check role and redirect accordingly
       const decodedToken = decodeToken(data.token);
       if (decodedToken.user?.isAdmin) {
-        navigate('/admin');
+        navigate('/admin', { replace: true });
       } else {
-        navigate('/');
+        navigate('/', { replace: true });
       }
     } catch (err) {
       console.error('Login error:', err?.response || err);
       setError(err.response?.data?.msg || 'Login failed. Please check credentials.');
     }
   };
+
+  // If already logged in (valid token), redirect to dashboard immediately
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    const decoded = decodeToken(token);
+    if (decoded && decoded.exp * 1000 > Date.now()) {
+      navigate('/', { replace: true });
+    } else {
+      // token expired or invalid, remove it
+      localStorage.removeItem('token');
+    }
+  }, [navigate]);
 
   return (
     <Container component="div" maxWidth="xs">

@@ -34,7 +34,7 @@ const Register = () => {
         password: formData.password,
       });
       localStorage.setItem('token', data.token);
-      navigate('/');
+      navigate('/', { replace: true });
     } catch (err) {
       setError(err.response?.data?.msg || 'Registration failed. Please try again.');
     }

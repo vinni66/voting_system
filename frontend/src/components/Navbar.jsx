@@ -22,7 +22,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/logout');
+    navigate('/login', { replace: true });
   };
 
   return (
@@ -42,7 +42,7 @@ const Navbar = () => {
                   Admin
                 </Button>
               )}
-              <Button onClick={handleLogout} color="inherit">
+              <Button component={RouterLink} to="/logout" onClick={handleLogout} color="inherit">
                 Logout
               </Button>
             </>
