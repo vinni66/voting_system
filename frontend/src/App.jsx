@@ -2,12 +2,13 @@ import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CssBaseline, Box, Container } from '@mui/material';
 import theme from './theme';
 
-// import Navbar from './components/Navbar';
-// import PrivateRoute from './components/PrivateRoute';
-// import AdminRoute from './components/components/AdminRoute';
+import Navbar from './components/Navbar';
+import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
 
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Logout from './pages/Logout';
 import Register from './pages/Register';
 // import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
@@ -21,22 +22,26 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        {/* <Navbar /> */}
+        <Navbar />
         <Container component="main" sx={{ flexGrow: 1, py: 4 }}>
           <Routes>
             {/* Public Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/results" element={<Results />} />
-            <Route path="/" element={<Dashboard />} />
-            {/* <Route path="/" element={<Dashboard />} /> Temporarily made Dashboard public */}
-            <Route path="/vote" element={<Vote />} /> {/* Temporarily made Vote public */}
+            <Route path="/logout" element={<Logout />} />
 
-            {/* Admin Routes (Temporarily commented out) */}
-            {/* <Route element={<AdminRoute />}> */}
+            {/* Private Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/vote" element={<Vote />} />
+            </Route>
+
+            {/* Admin Routes */}
+            <Route element={<AdminRoute />}>
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/users" element={<ViewUsers />} />
-            {/* </Route> */}
+            </Route>
           </Routes>
         </Container>
       </Box>
