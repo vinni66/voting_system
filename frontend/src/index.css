@@ -1,0 +1,4 @@
+/* Resetting CSS as MUI's CssBaseline will handle base styles */
+body {
+  margin: 0;
+}
